@@ -53,7 +53,7 @@ BTreeIt< T, K > next(BTreeIt< T, K > it)
     return {0, nullptr};
   }
 
-  if (ind != K) {
+  if (ind != K - 1) {
     if (next->childs[ind + 1]) {
       next = next->childs[ind + 1];
       next = minimum(next);
@@ -90,7 +90,50 @@ BTreeIt< T, K > next(BTreeIt< T, K > it)
 }
 
 template< class T, size_t K >
-BTreeIt< T, K > prev(BTreeIt< T, K > it);
+BTreeIt< T, K > prev(BTreeIt< T, K > it)
+{
+  BTree< T, K > prev = it.curr;
+  size_t ind = it.s;
+  
+  if (!prev) {
+    return {0, nullptr};
+  }
+
+  if (ind != 0) {
+    if (prev->childs[ind]) {
+      prev = prev->childs[ind];
+      prev = maximum(prev);
+      ind = K - 1;
+    } else {
+      --ind;
+    }
+  } else {
+    if (prev->childs[0]) {
+      prev = prev->childs[0];
+      prev = maximum(prev);
+      ind = K - 1;
+    } else {
+      BTree< T, K > * parent = prev->parent;
+      while (parent) {
+        bool is_found = false;
+        for (size_t i = K; i > 0; --i) {
+          if (parent->childs[i] == prev) {
+            ind = i;
+            is_found = true;
+            break;
+          }
+        }
+        if (is_found) {
+          break;
+        }
+        prev = parent;
+        parent = prev->parent;
+      }
+      prev = parent;
+    }
+  }
+  return {ind, prev};
+}
 
 template< class T, size_t K >
 bool hasNext(BTreeIt< T, K > it);
