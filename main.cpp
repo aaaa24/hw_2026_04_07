@@ -46,7 +46,7 @@ T value(BTreeIt< T, K > it)
 template< class T, size_t K >
 BTreeIt< T, K > next(BTreeIt< T, K > it)
 {
-  BTree< T, K > next = it.curr;
+  BTree< T, K > next = it.current;
   size_t ind = it.s;
   
   if (!next) {
@@ -92,7 +92,7 @@ BTreeIt< T, K > next(BTreeIt< T, K > it)
 template< class T, size_t K >
 BTreeIt< T, K > prev(BTreeIt< T, K > it)
 {
-  BTree< T, K > prev = it.curr;
+  BTree< T, K > prev = it.current;
   size_t ind = it.s;
   
   if (!prev) {
@@ -138,13 +138,13 @@ BTreeIt< T, K > prev(BTreeIt< T, K > it)
 template< class T, size_t K >
 bool hasNext(BTreeIt< T, K > it)
 {
-  return next(it).curr;
+  return next(it).current;
 }
 
 template< class T, size_t K >
 bool hasPrev(BTreeIt< T, K > it)
 {
-  return prev(it).curr;
+  return prev(it).current;
 }
 
 int main()
