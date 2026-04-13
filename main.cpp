@@ -118,7 +118,7 @@ BTreeIt< T, K > prev(BTreeIt< T, K > it)
         bool is_found = false;
         for (size_t i = K; i > 0; --i) {
           if (parent->childs[i] == prev) {
-            ind = i;
+            ind = i - 1;
             is_found = true;
             break;
           }
