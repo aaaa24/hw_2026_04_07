@@ -46,7 +46,47 @@ T value(BTreeIt< T, K > it)
 template< class T, size_t K >
 BTreeIt< T, K > next(BTreeIt< T, K > it)
 {
+  BTree< T, K > next = it.curr;
+  size_t ind = it.s;
+  
+  if (!next) {
+    return {0, nullptr};
+  }
 
+  if (ind != K) {
+    if (next->childs[ind + 1]) {
+      next = next->childs[ind + 1];
+      next = minimum(next);
+      ind = 0;
+    } else {
+      ++ind;
+    }
+  } else {
+    if (next->childs[K]) {
+      next = next->childs[K];
+      next = minimum(next);
+      ind = 0;
+    } else {
+      BTree< T, K > * parent = next->parent;
+      while (parent) {
+        bool is_found = false;
+        for (size_t i = 0; i < K; ++i) {
+          if (parent->childs[i] == next) {
+            ind = i;
+            is_found = true;
+            break;
+          }
+        }
+        if (is_found) {
+          break;
+        }
+        next = parent;
+        parent = next->parent;
+      }
+      next = parent;
+    }
+  }
+  return {ind, next};
 }
 
 template< class T, size_t K >
