@@ -14,7 +14,10 @@ struct BTreeIt {
 };
 
 template< class T, size_t K >
-T value(BTreeIt< T, K > it);
+T value(BTreeIt< T, K > it)
+{
+  return it.current->val[it.s];
+}
 
 template< class T, size_t K >
 BTreeIt< T, K > next(BTreeIt< T, K > it);
